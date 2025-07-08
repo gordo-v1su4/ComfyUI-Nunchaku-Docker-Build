@@ -1,0 +1,81 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+.env
+
+# ComfyUI specific
+ComfyUI/models/checkpoints/
+ComfyUI/models/loras/
+ComfyUI/models/vae/
+ComfyUI/models/controlnet/
+ComfyUI/models/embeddings/
+ComfyUI/models/upscale_models/
+ComfyUI/models/clip_vision/
+ComfyUI/models/diffusion_models/
+ComfyUI/models/unet/
+ComfyUI/models/text_encoders/
+ComfyUI/models/xlabs/
+ComfyUI/models/pulid/
+ComfyUI/models/insightface/
+ComfyUI/models/facerestore_models/
+ComfyUI/models/animatediff_models/
+ComfyUI/models/animatediff_motion_lora/
+ComfyUI/models/clip/
+ComfyUI/models/configs/
+ComfyUI/models/diffusers/
+ComfyUI/models/florence2/
+ComfyUI/models/gligen/
+ComfyUI/models/grounding-dino/
+ComfyUI/models/hypernetworks/
+ComfyUI/models/LLM/
+ComfyUI/models/luts/
+ComfyUI/models/nsfw_detector/
+ComfyUI/models/onnx/
+ComfyUI/models/photomaker/
+ComfyUI/models/reactor/
+ComfyUI/models/sams/
+ComfyUI/models/style_models/
+ComfyUI/models/ultralytics/
+ComfyUI/models/vae_approx/
+ComfyUI/models/vitmatte/
+ComfyUI/output/
+ComfyUI/user/
+ComfyUI/temp/
+
+# Windows specific
+python_embeded/
+*.bat
+*.exe
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+
+# Build artifacts
+dist/
+build/
+*.egg-info/
+
+# Logs
+*.log
+
+# Volume mounts for Docker
+models/
+output/
+user/
+
+# Cache
+node_modules/
+.cache/

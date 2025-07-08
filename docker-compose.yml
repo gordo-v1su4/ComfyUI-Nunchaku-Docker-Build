@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  comfyui-nunchaku:
+    image: YOUR_USERNAME/comfyui-nunchaku:latest
+    # Uncomment the line below to build locally instead
+    # build: .
+    container_name: comfyui-nunchaku
+    ports:
+      - "8188:8188"
+    volumes:
+      # Mount models directory for persistence
+      - ./models:/app/ComfyUI/models
+      # Mount user directory for workflows and settings
+      - ./user:/app/ComfyUI/user
+      # Mount output directory
+      - ./output:/app/ComfyUI/output
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8188/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s

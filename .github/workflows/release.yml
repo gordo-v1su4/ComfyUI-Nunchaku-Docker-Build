@@ -1,0 +1,57 @@
+name: Create Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Create Release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        body: |
+          ## What's New
+          
+          - Updated ComfyUI with Nunchaku extensions
+          - All dependencies fixed and tested
+          - CUDA 12.4 + Python 3.12 support
+          - Latest PyTorch and xFormers
+          
+          ## Docker Image
+          
+          ```bash
+          docker pull ${{ secrets.DOCKER_USERNAME }}/comfyui-nunchaku:${{ github.ref_name }}
+          ```
+          
+          ## Quick Start
+          
+          ```bash
+          docker run -d \
+            --name comfyui-nunchaku \
+            --gpus all \
+            -p 8188:8188 \
+            -v ./models:/app/ComfyUI/models \
+            -v ./user:/app/ComfyUI/user \
+            -v ./output:/app/ComfyUI/output \
+            ${{ secrets.DOCKER_USERNAME }}/comfyui-nunchaku:${{ github.ref_name }}
+          ```
+          
+          ## Full Changelog
+          
+          See the [commit history](https://github.com/${{ github.repository }}/commits/${{ github.ref_name }}) for detailed changes.
+        draft: false
+        prerelease: false

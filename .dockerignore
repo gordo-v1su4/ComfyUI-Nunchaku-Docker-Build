@@ -1,0 +1,82 @@
+# Ignore Windows specific files
+python_embeded/
+*.bat
+*.exe
+
+# Ignore git files
+.git/
+.gitignore
+
+# Ignore logs
+*.log
+ComfyUI/user/comfyui.log
+ComfyUI/user/comfyui.prev.log
+
+# Ignore cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+.env
+
+# Ignore IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Ignore OS files
+.DS_Store
+Thumbs.db
+
+# Ignore build artifacts
+dist/
+build/
+*.egg-info/
+
+# Ignore models (will be mounted as volumes)
+ComfyUI/models/checkpoints/
+ComfyUI/models/loras/
+ComfyUI/models/vae/
+ComfyUI/models/controlnet/
+ComfyUI/models/embeddings/
+ComfyUI/models/upscale_models/
+ComfyUI/models/clip_vision/
+ComfyUI/models/diffusion_models/
+ComfyUI/models/unet/
+ComfyUI/models/text_encoders/
+ComfyUI/models/xlabs/
+ComfyUI/models/pulid/
+ComfyUI/models/insightface/
+ComfyUI/models/facerestore_models/
+ComfyUI/models/animatediff_models/
+ComfyUI/models/animatediff_motion_lora/
+ComfyUI/models/clip/
+ComfyUI/models/configs/
+ComfyUI/models/diffusers/
+ComfyUI/models/florence2/
+ComfyUI/models/gligen/
+ComfyUI/models/grounding-dino/
+ComfyUI/models/hypernetworks/
+ComfyUI/models/LLM/
+ComfyUI/models/luts/
+ComfyUI/models/nsfw_detector/
+ComfyUI/models/onnx/
+ComfyUI/models/photomaker/
+ComfyUI/models/reactor/
+ComfyUI/models/sams/
+ComfyUI/models/style_models/
+ComfyUI/models/ultralytics/
+ComfyUI/models/vae_approx/
+ComfyUI/models/vitmatte/
+
+# Ignore output (will be mounted as volume)
+ComfyUI/output/
+
+# Ignore temp files
+temp/
+tmp/

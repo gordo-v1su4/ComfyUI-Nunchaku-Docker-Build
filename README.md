@@ -1,8 +1,8 @@
 # ComfyUI-Nunchaku Docker Build
 
 ![Docker Build](https://github.com/gordo-v1su4/ComfyUI-Nunchaku-Docker-Build/workflows/Build%20and%20Push%20Docker%20Image/badge.svg)
-![Docker Pulls](https://img.shields.io/docker/pulls/gordo-v1su4/comfyui-nunchaku)
-![Docker Image Size](https://img.shields.io/docker/image-size/gordo-v1su4/comfyui-nunchaku)
+![Docker Pulls](https://img.shields.io/docker/pulls/gordov1su4/comfyui-nunchaku)
+![Docker Image Size](https://img.shields.io/docker/image-size/gordov1su4/comfyui-nunchaku)
 
 This Docker setup includes ComfyUI with Nunchaku extensions and all necessary dependencies pre-installed and configured. The image is automatically built and pushed to Docker Hub using GitHub Actions.
 
@@ -18,7 +18,7 @@ docker run -d \
   -v ./models:/app/ComfyUI/models \
   -v ./user:/app/ComfyUI/user \
   -v ./output:/app/ComfyUI/output \
-  gordo-v1su4/comfyui-nunchaku:latest
+  gordov1su4/comfyui-nunchaku:latest
 ```
 
 ### Using Docker Compose

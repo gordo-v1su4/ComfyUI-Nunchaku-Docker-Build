@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   comfyui-nunchaku:
-    image: YOUR_USERNAME/comfyui-nunchaku:latest
+    image: gordo-v1su4/comfyui-nunchaku:latest
     # Uncomment the line below to build locally instead
     # build: .
     container_name: comfyui-nunchaku

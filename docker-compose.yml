@@ -5,7 +5,7 @@ services:
     # build: .
     container_name: comfyui-nunchaku
     ports:
-      - "8188:8188"
+      - "8189:8189"
     volumes:
       # Mount models directory for persistence
       - ./models:/app/ComfyUI/models
@@ -18,6 +18,8 @@ services:
     environment:
       - NVIDIA_VISIBLE_DEVICES=all
       - NVIDIA_DRIVER_CAPABILITIES=compute,utility
+      - CLI_ARGS=--listen 0.0.0.0 --port 8189 --fast
+      - PYTHONUNBUFFERED=1
     deploy:
       resources:
         reservations:
@@ -27,7 +29,7 @@ services:
               capabilities: [gpu]
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8188/"]
+      test: ["CMD", "curl", "-f", "http://localhost:8189/"]
       interval: 30s
       timeout: 10s
       retries: 3

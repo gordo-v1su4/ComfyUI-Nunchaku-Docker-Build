@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   comfyui-nunchaku:
     image: gordov1su4/comfyui-nunchaku:latest

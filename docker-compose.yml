@@ -1,36 +1,28 @@
-version: '3.8'
-
 services:
   comfyui-nunchaku:
     image: gordov1su4/comfyui-nunchaku:latest
-    # Uncomment the line below to build locally instead
-    # build: .
     container_name: comfyui-nunchaku
+    restart: unless-stopped
     ports:
-      - "8188:8188"
+      - "8189:8189"
     volumes:
-      # Mount models directory for persistence
       - ./models:/app/ComfyUI/models
-      # Mount user directory for workflows and settings
       - ./user:/app/ComfyUI/user
-      # Mount output directory
       - ./output:/app/ComfyUI/output
-      # Mount custom_nodes for persistence
       - ./custom_nodes:/app/ComfyUI/custom_nodes
     environment:
-      - NVIDIA_VISIBLE_DEVICES=all
-      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
+      - CLI_ARGS=--listen 0.0.0.0 --port 8189 --fast
+      - PYTHONUNBUFFERED=1
     deploy:
       resources:
         reservations:
           devices:
             - driver: nvidia
               count: all
-              capabilities: [gpu]
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8188/"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 60s
+              capabilities: [gpu]   
+    networks:
+      coolify:
+        ipv4_address: 10.0.1.10
+networks:
+  coolify:
+    external: true

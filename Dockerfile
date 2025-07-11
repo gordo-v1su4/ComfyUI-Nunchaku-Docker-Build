@@ -8,55 +8,26 @@ ENV CUDA_HOME=/usr/local/cuda
 ENV PATH=${CUDA_HOME}/bin:${PATH}
 ENV LD_LIBRARY_PATH=${CUDA_HOME}/lib64
 
-# Install system dependencies and development tools
+# Install all system dependencies in a single layer
 RUN apt-get update && apt-get install -y \
     wget \
     curl \
     gnupg2 \
     software-properties-common \
     build-essential \
-    && rm -rf /var/lib/apt/lists/*
-
-# Add NVIDIA CUDA repository and install CUDA toolkit
-RUN wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64/cuda-keyring_1.1-1_all.deb \
-    && dpkg -i cuda-keyring_1.1-1_all.deb \
-    && apt-get update \
-    && apt-get install -y cuda-toolkit \
-    && rm -rf /var/lib/apt/lists/*
-
-# Install Python 3.12 and development packages
-RUN apt-get update && apt-get install -y \
     python3.12 \
     python3.12-dev \
     python3.12-venv \
     python3-pip \
-    && rm -rf /var/lib/apt/lists/*
-
-# Install GCC 13 and C++ tools
-RUN apt-get update && apt-get install -y \
     gcc-13 \
     g++-13 \
-    && update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-13 60 \
-    && update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-13 60 \
-    && rm -rf /var/lib/apt/lists/*
-
-# Install OpenCV development packages
-RUN apt-get update && apt-get install -y \
     libopencv-dev \
     libopencv-contrib-dev \
     python3-opencv \
-    && rm -rf /var/lib/apt/lists/*
-
-# Install CMake, Ninja, and other build tools
-RUN apt-get update && apt-get install -y \
     cmake \
     ninja-build \
     git \
     pkg-config \
-    && rm -rf /var/lib/apt/lists/*
-
-# Install additional system dependencies
-RUN apt-get update && apt-get install -y \
     ffmpeg \
     sox \
     libsox-dev \
@@ -67,6 +38,15 @@ RUN apt-get update && apt-get install -y \
     libxext6 \
     libxrender-dev \
     libgomp1 \
+    && update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-13 60 \
+    && update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-13 60 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Add NVIDIA CUDA repository and install CUDA toolkit
+RUN wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64/cuda-keyring_1.1-1_all.deb \
+    && dpkg -i cuda-keyring_1.1-1_all.deb \
+    && apt-get update \
+    && apt-get install -y cuda-toolkit \
     && rm -rf /var/lib/apt/lists/*
 
 # Set Python 3.12 as default
@@ -78,6 +58,10 @@ WORKDIR /app
 
 # Copy ComfyUI files
 COPY ComfyUI/ /app/ComfyUI/
+
+# Copy entrypoint script
+COPY entrypoint.sh /app/entrypoint.sh
+RUN chmod +x /app/entrypoint.sh
 
 # Install Python dependencies
 #RUN python3 -m pip install --upgrade pip setuptools wheel --break-system-packages --force-reinstall
@@ -99,10 +83,8 @@ RUN pip3 install \
     insightface \
     facexlib --no-deps --break-system-packages
 
-# Manually install filterpy (fix for circular dependency)
-RUN git clone https://github.com/rlabbe/filterpy.git /tmp/filterpy && \
-    cp -r /tmp/filterpy/filterpy /usr/local/lib/python3.12/dist-packages/ && \
-    rm -rf /tmp/filterpy
+# Install filterpy from git
+RUN pip3 install git+https://github.com/rlabbe/filterpy.git --break-system-packages
 
 # Install custom node dependencies
 RUN pip3 install -r /app/ComfyUI/custom_nodes/ComfyUI-nunchaku/requirements.txt --break-system-packages || true
@@ -119,12 +101,6 @@ RUN mkdir -p /app/ComfyUI/models/checkpoints /app/ComfyUI/models/loras /app/Comf
 # Set permissions
 RUN chmod +x /app/ComfyUI/main.py
 
-# Expose port
-EXPOSE 8188
-
-# Health check
-HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
-    CMD curl -f http://localhost:8188/ || exit 1
-
-# Start command
-CMD ["python3", "/app/ComfyUI/main.py", "--listen", "0.0.0.0", "--port", "8188"]
+# Set entrypoint and default command
+ENTRYPOINT ["/app/entrypoint.sh"]
+CMD ["python3", "/app/ComfyUI/main.py"]

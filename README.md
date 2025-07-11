@@ -164,3 +164,17 @@ For issues related to:
 ## Testing Docker Hub Build - 2025-07-08 16:42:17
 
 ## Docker Hub Auth Test - 2025-07-08 16:46:34
+
+
+ 1 docker run -d \
+    2   --name comfyui-nunchaku \
+    3   --restart unless-stopped \
+    4   --gpus all \
+    5   -p 8189:8189 \
+    6   -v "$(pwd)/models":/app/ComfyUI/models \
+    7   -v "$(pwd)/user":/app/ComfyUI/user \
+    8   -v "$(pwd)/output":/app/ComfyUI/output \
+    9   -v "$(pwd)/custom_nodes":/app/ComfyUI/custom_nodes \
+   10   -e "CLI_ARGS=--listen 0.0.0.0 --port 8189 --fast" \
+   11   -e "PYTHONUNBUFFERED=1" \
+   12   gordov1su4/comfyui-nunchaku:latest  
